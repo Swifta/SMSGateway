@@ -49,7 +49,7 @@ public class BindGateway {
         connection.setReceiveTimeout(60 * 1000);
         session = new Session(connection);
 
-        logger.info("... Setting default values .... ");
+        //logger.info("... Setting default values .... ");
         // set values
         request.setSystemId(prop.getSystemId());
         request.setPassword(prop.getPassword());
