@@ -21,7 +21,7 @@ public class SubmitMessage {
     public boolean submitMessage(String message, String destination, GatewayProperties properties) throws Exception {
         if (BindThread.bound) {
             logger.info("Preparing requests ... ");
-            
+
             // set values
             request.setServiceType(properties.getServiceType());
             request.setSourceAddr(properties.getSourceAddress());
@@ -45,12 +45,21 @@ public class SubmitMessage {
             if (properties.isAsynchronous()) {
                 logger.info("Submitting request : " + request.toString());
                 response = BindGateway.session.submit(request);
-                return true;
+                if (response.isOk()) {
+                    return true;
+                }else{
+                    return false;
+                }
             } else {
                 logger.info("Submitting request : " + request.toString());
                 response = BindGateway.session.submit(request);
-                return true;
+                if (response.isOk()) {
+                    return true;
+                }else{
+                    return false;
+                }
             }
+            
         } else {
             logger.info("Unable to process request ... Gateway not bound");
             return false;

@@ -10,6 +10,7 @@ import com.logica.smpp.pdu.AddressRange;
 import com.logica.smpp.pdu.WrongLengthOfStringException;
 import java.util.Properties;
 import main.PropertyFileReader;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -17,6 +18,21 @@ import main.PropertyFileReader;
  */
 public class LoadProperties {
 
+    Logger logger = Logger.getLogger(LoadProperties.class);
+    
+    public String getGatewayPath(){
+        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+            return "E:\\PropertyFiles\\gateway.properties";
+        }
+        if (System.getProperty("os.name").toLowerCase().indexOf("sunos") >= 0) {
+            return "/opt/agentportal/properties/gateway.properties";
+        }
+        if (System.getProperty("os.name").toLowerCase().indexOf("nix") >= 0) {
+            return "/opt/agentportal/properties/gateway.properties";
+        }
+        return null;        
+    }
+    
     public String getPropertiesFilePath() {
         if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
             return "E:\\PropertyFiles\\smpptestportal.properties";
@@ -35,37 +51,61 @@ public class LoadProperties {
 
         PropertyFileReader reader = new PropertyFileReader(fileName);
         Properties prop = reader.getAllProperties();
-
+        logger.info("Setting parameters .... ");
         property = new GatewayProperties();
 
         property.setIpaddress(prop.getProperty("ip-address"));
+        logger.info("IP-Address : "+property.getIpaddress());
         property.setPort(Integer.parseInt(prop.getProperty("port")));
+        logger.info("Port : "+property.getPort());
         property.setPassword(prop.getProperty("password"));
+        logger.info("Password : "+property.getPassword());
 
         AddressRange addrRange = new AddressRange();
 
         byte ton = this.getByteProperty(prop, "addr-ton", addrRange.getTon());
         byte npi = this.getByteProperty(prop, "addr-npi", addrRange.getNpi());
 
+        logger.info("Ton : "+ton);
+        logger.info("Npi : "+npi);
+        
         addrRange.setTon(ton);
         addrRange.setNpi(npi);
         addrRange.setAddressRange(prop.getProperty("address-range"));
-
         property.setAddressRange(addrRange);
 
-        property.getSourceAddress().setTon(this.getByteProperty(prop, "source-ton", property.getSourceAddress().getTon()));
-        property.getSourceAddress().setNpi(this.getByteProperty(prop, "source-npi", property.getSourceAddress().getNpi()));
-        property.getSourceAddress().setAddress(prop.getProperty("source-address"));
+        Address sourceAddress = property.getSourceAddress();
+        
+        ton = getByteProperty(prop,"source-ton", sourceAddress.getTon());
+        npi = getByteProperty(prop,"source-npi", sourceAddress.getNpi());
+        String addr = prop.getProperty("source-address",
+                sourceAddress.getAddress());
+        setAddressParameter("source-address", sourceAddress, ton, npi, addr);
 
+        property.setSourceAddress(sourceAddress);
+        
+        Address destAddress = property.getDestAddress();
+        
+        ton = getByteProperty(prop,"destination-ton", destAddress.getTon());
+        npi = getByteProperty(prop,"destination-npi", destAddress.getNpi());
+        addr = prop.getProperty("destination-address",
+                destAddress.getAddress());
+        setAddressParameter("destination-address", destAddress, ton, npi, addr);
+        
+        property.setDestAddress(destAddress);
 
-        property.getDestAddress().setTon(this.getByteProperty(prop, "destination-ton", property.getDestAddress().getTon()));
-        property.getDestAddress().setNpi(this.getByteProperty(prop, "destination-npi", property.getDestAddress().getTon()));
-        property.getDestAddress().setAddress(prop.getProperty("destination-address"));
+        logger.info("Soutce Ton "+property.getSourceAddress().getTon());
+        logger.info("Soutce Npi "+property.getSourceAddress().getNpi());
 
-
+        logger.info("Dest Ton "+property.getDestAddress().getTon());
+        logger.info("Dest Npi "+property.getDestAddress().getNpi());        
+        
         property.setSystemId(prop.getProperty("system-id"));
+        logger.info("System ID : "+property.getSystemId());
         property.setSystemType(prop.getProperty("system-type"));
+        logger.info("System Type : "+property.getSystemType());
         property.setServiceType(prop.getProperty("service-type"));
+        logger.info("Service Type : "+property.getServiceType());
 
 
         String bindMode = prop.getProperty("bind-mode");
@@ -85,6 +125,8 @@ public class LoadProperties {
         }
 
         property.setBindOption(bindMode);
+        
+        logger.info("Bind Mode : "+property.getBindOption());
 
         int rcvTimeout = 0;
         if (property.getReceiveTimeout() == Data.RECEIVE_BLOCKING) {
@@ -106,6 +148,8 @@ public class LoadProperties {
             property.setReceiveTimeout(rcvTimeout * 1000);
         }
 
+        logger.info("Receive Timeout : "+property.getReceiveTimeout());
+        
         String syncMode = prop.getProperty("sync-mode", (property.isAsynchronous() ? "async" : "sync"));
         if (syncMode.equalsIgnoreCase("sync")) {
             property.setAsynchronous(false);
@@ -115,6 +159,8 @@ public class LoadProperties {
             property.setAsynchronous(false);
         }
 
+        logger.info("Async : "+property.isAsynchronous());
+        
         return property;
     }
 

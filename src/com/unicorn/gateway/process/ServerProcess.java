@@ -10,6 +10,7 @@ import com.unicorn.gateway.queue.ResponseQueue;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import org.apache.log4j.Logger;
 import org.json.me.JSONObject;
 
 /**
@@ -18,21 +19,27 @@ import org.json.me.JSONObject;
  */
 public class ServerProcess implements Runnable {
 
+    Logger logger = Logger.getLogger(ServerProcess.class);
+    
     private ServerSocket socket;
     private MessageQueue queue;
     private ResponseQueue rQueue;
+    private GatewayProperties prop;
 
-    public ServerProcess(ServerSocket server, MessageQueue queue, ResponseQueue rQueue) {
+    public ServerProcess(ServerSocket server, MessageQueue queue, ResponseQueue rQueue, GatewayProperties prop) {
         this.socket = server;
         this.queue = queue;
         this.rQueue = rQueue;
+        this.prop = prop;
     }
 
     private void connectAndListen() throws Exception {
-        System.out.println("Waiting for connections .... ");
+        logger.info("Waiting for connections .... ");
         Socket sock = this.socket.accept();
-        System.out.println("Creating a socket on port " + sock.getPort());
+        logger.info("Creating a socket on port " + sock.getPort());
 
+        logger.info("Bind state : "+BindGateway.session.isBound());
+        
         //reader
         DataInputStream din = new DataInputStream(sock.getInputStream());
         String m = din.readUTF();
@@ -40,12 +47,13 @@ public class ServerProcess implements Runnable {
         //put message on queue
         Message msg = new Message().fromJson(m);
         msg.setMessageID(sock.getPort());
-        System.out.println("Putting " + new Message().toJson(msg) + " on queue ... ");
+        logger.info("Putting " + new Message().toJson(msg) + " on queue ... ");
         this.queue.addToQueue(new Message().fromJson(m));
 
         DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
-        
-        if (BindThread.bound) {
+
+        if (Ping.ping(prop)
+                && BindThread.bound) {
             JSONObject js = new JSONObject();
 
             js.put("bound", true);
@@ -59,6 +67,8 @@ public class ServerProcess implements Runnable {
             js.put("sent", false);
 
             dos.writeUTF(js.toString());
+            
+            logger.info("Response back to client : "+js.toString());
         }
     }
 

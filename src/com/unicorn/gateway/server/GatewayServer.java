@@ -8,6 +8,8 @@ import com.unicorn.gateway.process.*;
 import com.unicorn.gateway.queue.MessageQueue;
 import com.unicorn.gateway.queue.ResponseQueue;
 import java.net.ServerSocket;
+import java.util.Properties;
+import main.PropertyFileReader;
 import org.apache.log4j.Logger;
 
 /**
@@ -16,13 +18,11 @@ import org.apache.log4j.Logger;
  */
 public class GatewayServer {
 
-    private String smsAddress;
-    private int listenPort, smsPort;
-    Logger logger = Logger.getLogger(GatewayServer.class);
+    private int listenPort;
+    private Logger logger = Logger.getLogger(GatewayServer.class);
+    private LoadProperties lp = new LoadProperties();
 
-    public GatewayServer(String smsAddress, int smsPort, int listenPort) {
-        this.smsAddress = smsAddress;
-        this.smsPort = smsPort;
+    public GatewayServer(int listenPort) {
         this.listenPort = listenPort;
     }
 
@@ -30,13 +30,12 @@ public class GatewayServer {
 
         //read sms properties
         logger.info("Reading properties file .... ");
-        LoadProperties lp = new LoadProperties();
         GatewayProperties properties = lp.loadProperties(lp.getPropertiesFilePath());
         logger.info("Properties file loaded from .... " + lp.getPropertiesFilePath());
 
         //start the binding process
         logger.info("Starting binding thread ..... ");
-        
+
         BindThread bind = new BindThread(properties);
         new Thread(bind).start();
 
@@ -50,27 +49,19 @@ public class GatewayServer {
         //initialise all
         logger.info("Initialising Message Queue ... ");
         MessageQueue queue = new MessageQueue();
-        
+
         logger.info("Initialising request spooler .... ");
         RequestSpooler spooler = new RequestSpooler(properties);
         spooler.spool();
-        
+
         logger.info("Initialising response queue .... ");
         ResponseQueue rq = new ResponseQueue();
-        
+
         logger.info("Starting message listener .... ");
-        ServerProcess sp = new ServerProcess(serverSocket,queue,rq);
+        ServerProcess sp = new ServerProcess(serverSocket, queue, rq, properties);
         new Thread(sp).start();
 
         return false;
-    }
-
-    public String getSmsAddress() {
-        return smsAddress;
-    }
-
-    public void setSmsAddress(String smsAddress) {
-        this.smsAddress = smsAddress;
     }
 
     public int getListenPort() {
@@ -81,17 +72,13 @@ public class GatewayServer {
         this.listenPort = listenPort;
     }
 
-    public int getSmsPort() {
-        return smsPort;
-    }
-
-    public void setSmsPort(int smsPort) {
-        this.smsPort = smsPort;
-    }
-
     public static void main(String[] args) {
-        GatewayServer gs = new GatewayServer("192.168.1.120", 7039, 2000);
         try {
+            LoadProperties lp = new LoadProperties();
+            Properties p = new PropertyFileReader(lp.getGatewayPath()).getAllProperties();
+            Logger.getLogger(GatewayServer.class).info("Loaded default gateway properties .... ");
+            GatewayServer gs = new GatewayServer(Integer.parseInt(p.getProperty("gateway-port")));
+            Logger.getLogger(GatewayServer.class).info("Initialising server .... ");
             gs.initialise();
         } catch (Exception ex) {
             ex.printStackTrace();

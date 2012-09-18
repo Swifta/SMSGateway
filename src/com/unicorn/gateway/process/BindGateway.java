@@ -21,13 +21,12 @@ public class BindGateway {
     static Session session = null;
     SMPPTestPDUEventListener pduListener = null;
     private Logger logger = Logger.getLogger(BindGateway.class);
-    
-    
+
     public boolean bindGateway(GatewayProperties prop) throws Exception {
 
         //start binding
         logger.info("Starting binding process .... ");
-        
+
         BindRequest request = null;
         BindResponse response = null;
 
@@ -44,10 +43,12 @@ public class BindGateway {
         }
 
 
-        logger.info("Connecting to "+prop.getIpaddress()+" and port "+prop.getPort());
+        logger.info("Connecting to " + prop.getIpaddress() + " and port " + prop.getPort());
         TCPIPConnection connection = new TCPIPConnection(prop.getIpaddress(), prop.getPort());
         connection.setReceiveTimeout(60 * 1000);
         session = new Session(connection);
+
+        logger.info("Connection : " + connection.toString());
 
         //logger.info("... Setting default values .... ");
         // set values
@@ -56,6 +57,14 @@ public class BindGateway {
         request.setSystemType(prop.getSystemType());
         request.setInterfaceVersion((byte) 0x34);
         request.setAddressRange(prop.getAddressRange());
+
+        logger.info(request.getAddressRange().toString());
+        logger.info(request.getSystemId());
+        logger.info(request.getSystemType());
+        logger.info(request.getPassword());
+        logger.info("Bind Option : " + prop.getBindOption());
+
+        logger.info("Request : "+request.debugString());
         
         // send the request
         if (prop.isAsynchronous()) {
@@ -67,7 +76,8 @@ public class BindGateway {
             response = session.bind(request);
         }
 
-
+        logger.info("Response : "+response.debugString());
+        
         if (response.getCommandStatus() == Data.ESME_ROK) {
             logger.info("Binding to sms gateway was successful ... ");
             BindThread.bound = true;
@@ -77,6 +87,4 @@ public class BindGateway {
             return false;
         }
     }
-    
-    
 }

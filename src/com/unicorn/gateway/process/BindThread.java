@@ -38,6 +38,7 @@ public class BindThread implements Runnable {
                 //logger.info("Starting binding process all over again ");
                 Pause.pause(5000);
                 logger.error(ex.getMessage());
+                ex.printStackTrace();
             }
         }
         BindThread.running = false;

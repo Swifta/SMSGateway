@@ -17,7 +17,7 @@ public class GatewayProperties {
     private String systemId = null;
     private String password = null;
     private String bindOption = "t";
-    private boolean asynchronous = false;
+    private boolean asynchronous = true;
     private String systemType = "";
     private String serviceType = "";
     private byte esmClass = 0;
