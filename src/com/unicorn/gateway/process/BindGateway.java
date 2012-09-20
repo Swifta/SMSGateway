@@ -9,6 +9,7 @@ import com.logica.smpp.Session;
 import com.logica.smpp.TCPIPConnection;
 import com.logica.smpp.pdu.*;
 import com.unicorn.gateway.listener.SMPPTestPDUEventListener;
+import org.apache.commons.pool.ObjectPool;
 import org.apache.log4j.Logger;
 
 /**
@@ -21,7 +22,12 @@ public class BindGateway {
     static Session session = null;
     SMPPTestPDUEventListener pduListener = null;
     private Logger logger = Logger.getLogger(BindGateway.class);
-
+//    private ObjectPool<Session> pool = null;
+//
+//    public BindGateway(ObjectPool<Session> pool){
+//        this.pool = pool;
+//    }
+    
     public boolean bindGateway(GatewayProperties prop) throws Exception {
 
         //start binding
@@ -57,6 +63,7 @@ public class BindGateway {
         request.setSystemType(prop.getSystemType());
         request.setInterfaceVersion((byte) 0x34);
         request.setAddressRange(prop.getAddressRange());
+        
 
         logger.info(request.getAddressRange().toString());
         logger.info(request.getSystemId());

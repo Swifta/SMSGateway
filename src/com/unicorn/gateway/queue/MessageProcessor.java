@@ -30,7 +30,7 @@ public class MessageProcessor implements Runnable {
 
         Message message = MessageQueue.queue.take();
         if (message != null) {
-            SubmitMessage submitMessage = new SubmitMessage();
+            SubmitMessage submitMessage = new SubmitMessage(properties.getPool());
 
             if (submitMessage.submitMessage(message.getMessage(), message.getDestination(), this.properties)) {
                 logger.info("Message has been delivered to " + message.getDestination());

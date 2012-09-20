@@ -4,12 +4,18 @@
  */
 package com.unicorn.gateway.server;
 
+import com.logica.smpp.Session;
+import com.unicorn.gateway.objects.BindSessionFactory;
 import com.unicorn.gateway.process.*;
 import com.unicorn.gateway.queue.MessageQueue;
 import com.unicorn.gateway.queue.ResponseQueue;
 import java.net.ServerSocket;
 import java.util.Properties;
 import main.PropertyFileReader;
+import org.apache.commons.pool.BasePoolableObjectFactory;
+import org.apache.commons.pool.ObjectPool;
+import org.apache.commons.pool.impl.StackObjectPool;
+import org.apache.commons.pool.impl.StackObjectPoolFactory;
 import org.apache.log4j.Logger;
 
 /**
@@ -38,6 +44,14 @@ public class GatewayServer {
 
         BindThread bind = new BindThread(properties);
         new Thread(bind).start();
+
+//        StackObjectPool<Session> ss = new StackObjectPool<Session>(new BindSessionFactory(properties));
+//        StackObjectPoolFactory<Session> sf = new StackObjectPoolFactory<Session>(new BindSessionFactory(properties));
+//        for (int i = 0; i < sf.getInitCapacity(); i++) {
+//            logger.info("Adding to the pool ... Session Pool ID: " + i);
+//            sf.createPool().addObject();
+//        }
+//        properties.setPool(sf.createPool());
 
         //start the listening port
         logger.info("Gateway initialising .... ");

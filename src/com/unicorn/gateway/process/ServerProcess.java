@@ -20,7 +20,6 @@ import org.json.me.JSONObject;
 public class ServerProcess implements Runnable {
 
     Logger logger = Logger.getLogger(ServerProcess.class);
-    
     private ServerSocket socket;
     private MessageQueue queue;
     private ResponseQueue rQueue;
@@ -38,8 +37,8 @@ public class ServerProcess implements Runnable {
         Socket sock = this.socket.accept();
         logger.info("Creating a socket on port " + sock.getPort());
 
-        logger.info("Bind state : "+BindGateway.session.isBound());
-        
+        //logger.info("Bind state : "+BindGateway.session.isBound());
+
         //reader
         DataInputStream din = new DataInputStream(sock.getInputStream());
         String m = din.readUTF();
@@ -48,18 +47,21 @@ public class ServerProcess implements Runnable {
         Message msg = new Message().fromJson(m);
         msg.setMessageID(sock.getPort());
         logger.info("Putting " + new Message().toJson(msg) + " on queue ... ");
-        this.queue.addToQueue(new Message().fromJson(m));
+        //this.queue.addToQueue(new Message().fromJson(m));
+
+        SubmitMessage sb = new SubmitMessage(prop.getPool());
+        boolean sent = sb.submitMessage(msg.getMessage(), msg.getDestination(), prop);
 
         DataOutputStream dos = new DataOutputStream(sock.getOutputStream());
 
-        if (Ping.ping(prop)
-                && BindThread.bound) {
+        if (sent) {
             JSONObject js = new JSONObject();
 
             js.put("bound", true);
             js.put("sent", true);
 
             dos.writeUTF(js.toString());
+            logger.info("Response back to client : " + js.toString());
         } else {
             JSONObject js = new JSONObject();
 
@@ -67,8 +69,8 @@ public class ServerProcess implements Runnable {
             js.put("sent", false);
 
             dos.writeUTF(js.toString());
-            
-            logger.info("Response back to client : "+js.toString());
+
+            logger.info("Response back to client : " + js.toString());
         }
     }
 

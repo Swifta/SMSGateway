@@ -1,0 +1,97 @@
+0    [main] INFO  com.unicorn.gateway.server.GatewayServer  - Loaded default gateway properties .... 
+2    [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising server .... 
+2    [main] INFO  com.unicorn.gateway.server.GatewayServer  - Reading properties file .... 
+15   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Setting parameters .... 
+51   [main] INFO  com.unicorn.gateway.process.LoadProperties  - IP-Address : 192.168.2.154
+55   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Port : 7029
+57   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Password : cash55
+61   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Ton : 0
+62   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Npi : 0
+65   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Soutce Ton 5
+67   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Soutce Npi 9
+69   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Dest Ton 1
+69   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Dest Npi 1
+70   [main] INFO  com.unicorn.gateway.process.LoadProperties  - System ID : Money
+70   [main] INFO  com.unicorn.gateway.process.LoadProperties  - System Type : null
+71   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Service Type : null
+72   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Bind Mode : t
+72   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Receive Timeout : 300000000
+73   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Async : true
+74   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Properties file loaded from .... E:\PropertyFiles\smpptestportal.properties
+74   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Starting binding thread ..... 
+78   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Gateway initialising .... 
+87   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Listening for request ..... 6000
+87   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Server started ....
+87   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising Message Queue ... 
+124  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Starting binding process .... 
+134  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising request spooler .... 
+152  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 0
+153  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 1
+154  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 2
+154  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 3
+156  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 4
+157  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising response queue .... 
+161  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Starting message listener .... 
+185  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connecting to 192.168.2.154 and port 7029
+190  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connection : com.logica.smpp.TCPIPConnection@37f5d386
+190  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - com.logica.smpp.pdu.AddressRange@6c121f1d
+190  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Money
+190  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - 
+190  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - cash55
+191  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Bind Option : t
+191  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Request : (bindreq: (pdu: 0 2 0 [1]) Money cash55 null 52 (addrrang: 0 0 null) ) 
+195  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Asychronous binding ... Please wait ... 
+26211 [Thread-0] ERROR com.unicorn.gateway.process.BindThread  - Connection timed out: connect
+26238 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Starting binding process .... 
+26238 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connecting to 192.168.2.154 and port 7029
+26238 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connection : com.logica.smpp.TCPIPConnection@5b7ee8b8
+26238 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - com.logica.smpp.pdu.AddressRange@6c121f1d
+26238 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Money
+26249 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - 
+26249 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - cash55
+26250 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Bind Option : t
+26250 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Request : (bindreq: (pdu: 0 2 0 [1]) Money cash55 null 52 (addrrang: 0 0 null) ) 
+26250 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Asychronous binding ... Please wait ... 
+0    [main] INFO  com.unicorn.gateway.server.GatewayServer  - Loaded default gateway properties .... 
+25   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising server .... 
+25   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Reading properties file .... 
+47   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Setting parameters .... 
+74   [main] INFO  com.unicorn.gateway.process.LoadProperties  - IP-Address : 192.168.2.154
+75   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Port : 7029
+75   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Password : cash55
+78   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Ton : 0
+78   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Npi : 0
+79   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Soutce Ton 5
+79   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Soutce Npi 9
+79   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Dest Ton 1
+80   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Dest Npi 1
+80   [main] INFO  com.unicorn.gateway.process.LoadProperties  - System ID : Money
+80   [main] INFO  com.unicorn.gateway.process.LoadProperties  - System Type : null
+81   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Service Type : null
+81   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Bind Mode : t
+81   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Receive Timeout : 300000000
+82   [main] INFO  com.unicorn.gateway.process.LoadProperties  - Async : true
+82   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Properties file loaded from .... E:\PropertyFiles\smpptestportal.properties
+89   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Starting binding thread ..... 
+94   [main] INFO  com.unicorn.gateway.server.GatewayServer  - Gateway initialising .... 
+100  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Starting binding process .... 
+125  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connecting to 192.168.2.154 and port 7029
+130  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connection : com.logica.smpp.TCPIPConnection@5f1121f6
+131  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - com.logica.smpp.pdu.AddressRange@5dccce3c
+132  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Money
+132  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - 
+133  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - cash55
+133  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Bind Option : t
+133  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Request : (bindreq: (pdu: 0 2 0 [1]) Money cash55 null 52 (addrrang: 0 0 null) ) 
+152  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Asychronous binding ... Please wait ... 
+155  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Listening for request ..... 6000
+155  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Server started ....
+155  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising Message Queue ... 
+212  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising request spooler .... 
+218  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 0
+219  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 1
+219  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 2
+219  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 3
+219  [main] INFO  com.unicorn.gateway.queue.MessageProcessor  - Starting a Message Processor with id 4
+220  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Initialising response queue .... 
+222  [main] INFO  com.unicorn.gateway.server.GatewayServer  - Starting message listener .... 

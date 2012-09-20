@@ -5,7 +5,6 @@
 package com.unicorn.gateway.process;
 
 import com.logica.smpp.pdu.EnquireLink;
-import com.logica.smpp.pdu.EnquireLinkResp;
 import org.apache.log4j.Logger;
 
 /**
@@ -18,7 +17,7 @@ public class Ping {
 
     public static boolean ping(GatewayProperties prop) {
         logger.info("Pinging the gateway .... ");
-        SubmitMessage m = new SubmitMessage();
+        SubmitMessage m = new SubmitMessage(prop.getPool());
         try {
             EnquireLink request = new EnquireLink();
             logger.info(request.debugString());
@@ -28,10 +27,15 @@ public class Ping {
             e.printStackTrace();
             logger.info(e.getMessage());
             
-            new UnbindGateway().unbind();
+            new UnbindGateway(prop).unbind();
+            
+            BindThread.bound = false;
+            BindThread.running = false;
+            BindGateway.session = null;            
             
             BindThread bind = new BindThread(prop);
             new Thread(bind).start();
+            
             return false;
         }
     }

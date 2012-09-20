@@ -5,8 +5,10 @@
 package com.unicorn.gateway.process;
 
 import com.logica.smpp.Data;
+import com.logica.smpp.Session;
 import com.logica.smpp.pdu.Address;
 import com.logica.smpp.pdu.AddressRange;
+import org.apache.commons.pool.ObjectPool;
 
 /**
  *
@@ -37,6 +39,7 @@ public class GatewayProperties {
     private AddressRange addressRange;
     Address sourceAddress = new Address();
     Address destAddress = new Address();
+    private ObjectPool<Session> pool;
 
     public Address getDestAddress() {
         return destAddress;
@@ -46,6 +49,14 @@ public class GatewayProperties {
         this.destAddress = destAddress;
     }
 
+    public ObjectPool<Session> getPool() {
+        return pool;
+    }
+
+    public void setPool(ObjectPool<Session> pool) {
+        this.pool = pool;
+    }
+    
     public Address getSourceAddress() {
         return sourceAddress;
     }
