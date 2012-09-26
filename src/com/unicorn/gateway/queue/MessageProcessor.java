@@ -39,12 +39,6 @@ public class MessageProcessor implements Runnable {
             } else {
                 logger.info("Unable to deliver message " + message.getMessage() + " to " + message.getDestination());
                 BindThread.bound = false;
-
-                //start binding again
-                if (BindThread.running == false) {
-                    BindThread bind = new BindThread(properties);
-                    new Thread(bind).start();
-                }
             }
         }
     }
@@ -56,6 +50,13 @@ public class MessageProcessor implements Runnable {
                 process();
             }
         } catch (Exception ex) {
+            BindThread.bound = false;
+            BindThread.running = false;
+            //start binding again
+            if (BindThread.running == false) {
+                BindThread bind = new BindThread(properties);
+                new Thread(bind).start();
+            }
             logger.error(ex.getMessage());
         }
     }

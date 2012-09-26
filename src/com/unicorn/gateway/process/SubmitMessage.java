@@ -7,7 +7,6 @@ package com.unicorn.gateway.process;
 import com.logica.smpp.Session;
 import com.logica.smpp.pdu.SubmitSM;
 import com.logica.smpp.pdu.SubmitSMResp;
-import java.io.IOException;
 import org.apache.commons.pool.ObjectPool;
 import org.apache.log4j.Logger;
 

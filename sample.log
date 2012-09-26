@@ -42,3 +42,14 @@
 140  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Bind Option : t
 140  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Request : (bindreq: (pdu: 0 2 0 [1]) Money cash55 null 52 (addrrang: 0 0 null) ) 
 150  [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Asychronous binding ... Please wait ... 
+26166 [Thread-0] ERROR com.unicorn.gateway.process.BindThread  - Connection timed out: connect
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Starting binding process .... 
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connecting to 192.168.2.154 and port 7029
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Connection : com.logica.smpp.TCPIPConnection@4ac4aad3
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - com.logica.smpp.pdu.AddressRange@37922221
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Money
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - 
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - cash55
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Bind Option : t
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Request : (bindreq: (pdu: 0 2 0 [1]) Money cash55 null 52 (addrrang: 0 0 null) ) 
+26186 [Thread-0] INFO  com.unicorn.gateway.process.BindGateway  - Asychronous binding ... Please wait ... 

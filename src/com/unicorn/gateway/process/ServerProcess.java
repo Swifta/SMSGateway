@@ -80,7 +80,16 @@ public class ServerProcess implements Runnable {
             try {
                 connectAndListen();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                BindThread.bound = false;
+                BindThread.running = false;
+                
+                logger.info("Starting to bind ... Please wait.");
+                //start binding again
+                if (BindThread.running == false) {
+                    BindThread bind = new BindThread(prop);
+                    new Thread(bind).start();
+                }
+                logger.error(ex.getMessage());
             }
         }
     }
