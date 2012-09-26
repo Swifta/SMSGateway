@@ -35,7 +35,8 @@ public class ServerProcess implements Runnable {
     private void connectAndListen() throws Exception {
         logger.info("Waiting for connections .... ");
         Socket sock = this.socket.accept();
-        logger.info("Creating a socket on port " + sock.getPort());
+        sock.setSoTimeout(30000);
+        logger.info("Creating a socket on port " + sock.getPort()+" with timeout "+sock.getSoTimeout());
 
         //logger.info("Bind state : "+BindGateway.session.isBound());
 

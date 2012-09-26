@@ -4,18 +4,13 @@
  */
 package com.unicorn.gateway.server;
 
-import com.logica.smpp.Session;
-import com.unicorn.gateway.objects.BindSessionFactory;
 import com.unicorn.gateway.process.*;
 import com.unicorn.gateway.queue.MessageQueue;
 import com.unicorn.gateway.queue.ResponseQueue;
+import com.unicorn.smpp.pool.SessionPool;
 import java.net.ServerSocket;
 import java.util.Properties;
 import main.PropertyFileReader;
-import org.apache.commons.pool.BasePoolableObjectFactory;
-import org.apache.commons.pool.ObjectPool;
-import org.apache.commons.pool.impl.StackObjectPool;
-import org.apache.commons.pool.impl.StackObjectPoolFactory;
 import org.apache.log4j.Logger;
 
 /**
@@ -42,8 +37,8 @@ public class GatewayServer {
         //start the binding process
         logger.info("Starting binding thread ..... ");
 
-        BindThread bind = new BindThread(properties);
-        new Thread(bind).start();
+//        BindThread bind = new BindThread(properties);
+//        new Thread(bind).start();
 
 //        StackObjectPool<Session> ss = new StackObjectPool<Session>(new BindSessionFactory(properties));
 //        StackObjectPoolFactory<Session> sf = new StackObjectPoolFactory<Session>(new BindSessionFactory(properties));
@@ -52,7 +47,10 @@ public class GatewayServer {
 //            sf.createPool().addObject();
 //        }
 //        properties.setPool(sf.createPool());
-
+        
+        //session pool
+        SessionPool pool = new SessionPool(properties);
+        
         //start the listening port
         logger.info("Gateway initialising .... ");
 
@@ -60,6 +58,7 @@ public class GatewayServer {
         logger.info("Listening for request ..... " + serverSocket.getLocalPort());
         logger.info("Server started ....");
 
+        
         //initialise all
         logger.info("Initialising Message Queue ... ");
         MessageQueue queue = new MessageQueue();
@@ -75,6 +74,9 @@ public class GatewayServer {
         ServerProcess sp = new ServerProcess(serverSocket, queue, rq, properties);
         new Thread(sp).start();
 
+        //enquire link thread        
+        new Thread(new EnquireLinkThread()).start();
+        
         return false;
     }
 

@@ -7,6 +7,7 @@ package com.unicorn.gateway.process;
 import com.logica.smpp.Session;
 import com.logica.smpp.pdu.SubmitSM;
 import com.logica.smpp.pdu.SubmitSMResp;
+import com.unicorn.smpp.pool.SessionPool;
 import org.apache.commons.pool.ObjectPool;
 import org.apache.log4j.Logger;
 
@@ -22,8 +23,12 @@ public class SubmitMessage {
     private ObjectPool<Session> pool;
 
     public SubmitMessage(ObjectPool<Session> pool) {
-        this.pool = pool;
+        this.pool = SessionPool.sessionPool;
     }
+    
+    public SubmitMessage() {
+    }
+    
 
     public boolean submitMessage(String message, String destination, GatewayProperties properties) throws Exception {
         Session session = null;
@@ -48,21 +53,36 @@ public class SubmitMessage {
         request.assignSequenceNumber(true);
 
         logger.info("SMS request prepared ... ");
-
+        
         if (properties.isAsynchronous()) {
+            logger.info("Sending message in asynchronous mode .... ");
             logger.info("Submitting request : " + request.toString());
-            response = BindGateway.session.submit(request);
+            logger.info("Pulling session from pool .... ");
+            Session sess = this.pool.borrowObject();
+            logger.debug(sess);
+            response = sess.submit(request);
             if (response.isOk()) {
+                logger.info("Returning session to pool .... ");
+                this.pool.returnObject(sess);
                 return true;
             } else {
+                logger.info("Returning session to pool .... ");
+                this.pool.returnObject(sess);
                 return false;
             }
         } else {
             logger.info("Submitting request : " + request.toString());
-            response = BindGateway.session.submit(request);
+            logger.info("Pulling session from pool .... ");
+            Session sess = this.pool.borrowObject();
+            logger.debug(sess);
+            response = sess.submit(request);
             if (response.isOk()) {
+                logger.info("Returning session to pool .... ");
+                this.pool.returnObject(sess);
                 return true;
             } else {
+                logger.info("Returning session to pool .... ");
+                this.pool.returnObject(sess);
                 return false;
             }
         }
